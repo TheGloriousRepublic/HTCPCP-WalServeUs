@@ -3,6 +3,21 @@ import BaseHTTPServer, os
 settings={}
 rw={}
 
+def brewCoffee(*args):
+    pass
+
+def dictMerge(x, y):
+    '''Given two dicts, merge them into a new dict as a shallow copy.'''
+    z = x.copy()
+    z.update(y)
+    return z
+
+def log(dat): #Print to console and save to log
+    o='['+str(datetime.datetime.now())+'] '+str(dat)+'\n'    
+    b=open(settings['lgdir']+'/server.log', 'r+').read() #Retrieve current log
+    open(settings['lgdir']+'/server.log', 'w+').write(b+o+'\n\n') #Write a concatenation of old log and new log to log
+    print(o)
+
 def loadConfig(): #Open configuration files and save their options to settings
     print('Loading configuration files')
     print('\tLoading settings...')                
@@ -25,7 +40,15 @@ def loadConfig(): #Open configuration files and save their options to settings
     print('\tConfiguration loaded\n\n')
 
 class CoffeePot(BaseHTTPServer.BaseHTTPRequestHandler):
-    pass
+    def do_BREW(self):
+        if self.headers('Content-Type')=='application/coffee-pot-command':
+            pass
+
+    def do_POST(self):
+        self.do_BREW()
+
+    def do_GET(self):
+        pass
 
 loadConfig()
 
