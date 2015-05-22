@@ -1,4 +1,4 @@
-import BaseHTTPServer, os
+import BaseHTTPServer, os, datetime
 
 settings={}
 rw={}
@@ -40,7 +40,15 @@ def loadConfig(): #Open configuration files and save their options to settings
     print('\tConfiguration loaded\n\n')
 
 class CoffeePot(BaseHTTPServer.BaseHTTPRequestHandler):
+
+    def log_message(*args):
+        pass
+
+    def logCommand(self):
+        log(self.client_address[0]+' on port '+str(self.client_address[1])+' to '+self.headers.get('host')+': \''+self.command+' '+self.path+'\', interpreted as \''+self.command+' '+self.getPath()+'\'') #Log the time and client address/client port of a request, followed by the request submitted and what it was interpreted to.
+        
     def do_BREW(self):
+        self.logCommand()
         if self.headers('Content-Type')=='application/coffee-pot-command':
             pass
 
@@ -48,6 +56,13 @@ class CoffeePot(BaseHTTPServer.BaseHTTPRequestHandler):
         self.do_BREW()
 
     def do_GET(self):
+        self.logCommand()
+        pass
+
+    def do_PROPFIND(self):
+        pass
+
+    def do_WHEN(self):
         pass
 
 loadConfig()
