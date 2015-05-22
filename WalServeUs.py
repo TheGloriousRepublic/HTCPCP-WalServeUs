@@ -1,4 +1,7 @@
-import BaseHTTPServer
+import BaseHTTPServer, os
+
+settings={}
+rw={}
 
 def loadConfig(): #Open configuration files and save their options to settings
     print('Loading configuration files')
@@ -23,6 +26,10 @@ def loadConfig(): #Open configuration files and save their options to settings
 
 class CoffeePot(BaseHTTPServer.BaseHTTPRequestHandler):
     pass
+
+loadConfig()
+
+
 
 def serve():
     log('Server starts')
